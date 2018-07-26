@@ -55,8 +55,8 @@ contract AirDropContract {
 
     event AirDropped(address addr, uint amount);
     
-    address viteTokenAddress;
-    address owner;  // OK address
+    address public viteTokenAddress;
+    address public owner;  // OK address
     
     uint private dropNum                    = 6;  // the number of issue
     
@@ -91,6 +91,7 @@ contract AirDropContract {
             
             dropNum = dropNum - 1;
             lastIssueTime = now;
+            AirDropped(owner, AMOUNT_PER_TIME);
         }
     }
     
