@@ -50,7 +50,6 @@ contract Token {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
 
-
 contract AirDropContract {
 
     event AirDropped(address addr, uint amount);
@@ -58,14 +57,14 @@ contract AirDropContract {
     address public viteTokenAddress;
     address public owner;  // OK address
     
-    uint private dropNum                    = 6;  // the number of issue
+    uint public dropNum                    = 6;  // the number of issue
     
     // uint public constant DROP_PERIOD        = 30 days;  // the period of issue
     uint public constant DROP_PERIOD        = 10;
     
-    uint private lastIssueTime              = 0;    // the last issue time 
+    uint public lastIssueTime              = 0;    // the last issue time 
     
-    uint private constant AMOUNT_PER_TIME   = 10000;  // the amount of per issue
+    uint public constant AMOUNT_PER_TIME   = 10000;  // the amount of per issue
     
     
     function AirDropContract(address _viteTokenAddress, address _owner) payable {
@@ -93,10 +92,6 @@ contract AirDropContract {
             lastIssueTime = now;
             AirDropped(owner, AMOUNT_PER_TIME);
         }
-    }
-    
-    function getNum() public view returns(uint) {
-        return dropNum;
     }
 
     function () payable public {
