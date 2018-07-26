@@ -2,11 +2,11 @@
 
 pragma solidity ^0.4.11;
 
-import './SafeMath.sol'
-import './Math.sol'
-import './Token.sol'
+import './SafeMath.sol';
+import './Math.sol';
+import './Token.sol';
 
-contract ViteHoldingContract.sol {
+contract ViteHoldingContract {
 	using SafeMath for uint;
 	using Math for uint;
 
@@ -40,7 +40,7 @@ contract ViteHoldingContract.sol {
 	// 存放每笔锁仓记录
 	mapping (address => Record) records;
 
-	address[] private whiteList;
+	mapping (address => bool) private whiteList;
 
 	/*
 	 * EVENTS
@@ -54,14 +54,33 @@ contract ViteHoldingContract.sol {
 	/// @param _viteTokenAddress ViteToken ERC20 token address
 	/// @param _owner the owner of the contract
 	function ViteHoldingContract(address _viteTokenAddress, address _owner) {
-		require(_viteTokenAddress != address(0))
-		require(_owner != address(0))
+		require(_viteTokenAddress != address(0));
+		require(_owner != address(0));
 
 		viteTokenAddress = _viteTokenAddress;
 		owner = _owner;
 	}
 
-	function addWhiteList() public {}
+	function addWhiteList(address[] addrList) public {
+		require(msg.address == owner);
+		for (uint i=0; i<addrList.length; i++) {
+			whiteList[addrList[i]] = true;
+		}
+	}
+
+	function isAddrExist(address addr) public returns (bool) {
+		return whiteList[addr];
+	}
+
+	function removeWhiteName(address addr) public {
+		require(msg.address == owner);
+		delete whiteList[addr];
+	}
+
+	function viteBalance() public constant returns (uint) {
+		return Token(viteTokenAddress).balanceOf(address(this));
+	}
+
 
 
 
